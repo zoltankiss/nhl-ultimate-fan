@@ -1,0 +1,2 @@
+class NhlGame < ApplicationRecord
+end
