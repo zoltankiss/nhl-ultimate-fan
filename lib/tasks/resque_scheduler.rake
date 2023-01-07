@@ -7,7 +7,7 @@ namespace :resque do
     require 'resque'
 
     # you probably already have this somewhere
-    Resque.redis = 'localhost:6379'
+    Resque.redis = Rails.env == "developement" ? 'localhost:6379' : "redis-14823.c15.us-east-1-4.ec2.cloud.redislabs.com:14823"
   end
 
   task :setup_schedule => :setup do
