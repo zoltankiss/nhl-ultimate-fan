@@ -46,3 +46,7 @@ group :development do
   # gem "spring"
 end
 
+gem "httparty"
+gem "resque"
+gem "resque-scheduler"
+gem "rubocop-rails"
