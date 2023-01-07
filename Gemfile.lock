@@ -70,6 +70,7 @@ GEM
     bootsnap (1.15.0)
       msgpack (~> 1.2)
     builder (3.2.4)
+    coderay (1.1.3)
     concurrent-ruby (1.1.10)
     connection_pool (2.3.0)
     crass (1.0.6)
@@ -128,6 +129,9 @@ GEM
     parser (3.2.0.0)
       ast (~> 2.4.1)
     pg (1.4.5)
+    pry (0.14.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     puma (5.6.5)
       nio4r (~> 2.0)
     raabro (1.4.0)
@@ -229,6 +233,7 @@ DEPENDENCIES
   debug
   httparty
   pg (~> 1.1)
+  pry
   puma (~> 5.0)
   rails (~> 7.0.4)
   resque
