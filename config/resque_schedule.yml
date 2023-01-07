@@ -1,4 +1,4 @@
 MonitorGamesJob:
-  cron: "*/1 * * * *"
+  cron: "*/5 * * * *"
   class: "MonitorGamesJob"
   queue: high
