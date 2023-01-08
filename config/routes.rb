@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  resources :nhl_games, only: %i[index]
+  resources :nhl_games, only: %i[index] do
+    resources :nhl_player_game_stats, only: %i[index]
+  end
 end
