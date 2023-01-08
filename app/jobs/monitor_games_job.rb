@@ -20,7 +20,7 @@ class MonitorGamesJob
       nhl_game = NhlGame.where(id: game["gamePk"]).first
       
       if nhl_game
-        Resque.enqueue(InjestGameDataJob, live_game["link"]) if nhl_game.status == "Preview" && game["status"]["abstractGameState"] == "Live"
+        Resque.enqueue(InjestGameDataJob, live_game["link"], nhl_game.id) if nhl_game.status == "Preview" && game["status"]["abstractGameState"] == "Live"
         nhl_game.update!(status: game["status"]["abstractGameState"])
       else
         NhlGame.create!(id: game["gamePk"], link: game["link"], status: game["status"]["abstractGameState"])
