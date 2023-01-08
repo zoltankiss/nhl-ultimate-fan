@@ -53,3 +53,4 @@ gem "httparty"
 gem "resque"
 gem "resque-scheduler"
 gem "rubocop-rails"
+gem 'rack-cors'
