@@ -47,7 +47,7 @@ class InjestGameDataJob
     game_status = response["gameData"]["status"]["abstractGameState"]
 
     if game_status == "Live"
-      sleep 10
+      sleep 300
       Resque.enqueue(InjestGameDataJob, live_game_link, game_id)
     end
   rescue StandardError => e
