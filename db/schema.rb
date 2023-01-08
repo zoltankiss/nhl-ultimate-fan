@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_07_232915) do
+ActiveRecord::Schema[7.0].define(version: 20_230_107_232_915) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,5 +50,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_07_232915) do
     t.index ["nhl_game_id"], name: "index_nhl_player_game_stats_on_nhl_game_id"
     t.index ["player_id"], name: "index_nhl_player_game_stats_on_player_id", unique: true
   end
-
 end
