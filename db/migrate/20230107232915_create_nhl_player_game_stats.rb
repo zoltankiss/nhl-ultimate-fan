@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateNhlPlayerGameStats < ActiveRecord::Migration[7.0]
   def change
     create_table :nhl_player_game_stats, id: false do |t|
