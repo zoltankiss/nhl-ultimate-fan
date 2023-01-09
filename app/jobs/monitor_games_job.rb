@@ -5,7 +5,7 @@ class MonitorGamesJob
 
   def self.perform
     puts "ran MonitorGamesJob"
-    JobDatum.create!(job_name: "MonitorGamesJob", label: "ran at")
+    JobDatum.create!(job_name: "MonitorGamesJob", label: "")
 
     todays_date_str = DateTime.now.strftime("%Y-%m-%d")
     response = HTTParty.get("https://statsapi.web.nhl.com/api/v1/schedule?&startDate=#{todays_date_str}&endDate=#{todays_date_str}")

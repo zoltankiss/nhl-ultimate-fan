@@ -5,7 +5,7 @@ class InjestGameDataJob
 
   def self.perform(live_game_link, game_id)
     puts "ran InjestGameDataJob with game_link: #{live_game_link}, game_id: #{game_id}"
-    JobDatum.create!(job_name: "InjestGameDataJob", label: "ran with game_link: #{live_game_link}, game_id: #{game_id}")
+    JobDatum.create!(job_name: "InjestGameDataJob", label: "game_link: #{live_game_link}, game_id: #{game_id}")
 
     response = HTTParty.get(URI.join("https://statsapi.web.nhl.com", live_game_link))
 
