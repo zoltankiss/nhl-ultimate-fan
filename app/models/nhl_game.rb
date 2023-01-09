@@ -13,7 +13,7 @@ class NhlGame < ApplicationRecord
     NhlGame
       .joins("LEFT OUTER JOIN nhl_player_game_stats ON nhl_player_game_stats.nhl_game_id = nhl_games.id")
       .where(status: "Live")
-      .order(created_at: :desc)
+      .order(created_at: :asc)
       .group("nhl_games.id")
       .select("count(nhl_player_game_stats.player_id) as nhl_player_game_stats_count, nhl_games.*")
   end
@@ -22,7 +22,7 @@ class NhlGame < ApplicationRecord
     NhlGame
       .joins("LEFT OUTER JOIN nhl_player_game_stats ON nhl_player_game_stats.nhl_game_id = nhl_games.id")
       .where.not(status: "Live")
-      .order(created_at: :desc)
+      .order(created_at: :asc)
       .group("nhl_games.id")
       .select("count(nhl_player_game_stats.player_id) as nhl_player_game_stats_count, nhl_games.*")
   end
