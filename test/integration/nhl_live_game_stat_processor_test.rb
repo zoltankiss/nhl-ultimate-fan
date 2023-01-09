@@ -32,5 +32,8 @@ class NhlLiveGameStatProcessorTest < ActionDispatch::IntegrationTest
     assert_equal 2, player.assists
     assert_equal 0, player.goals
     assert_equal 0, player.hits
+
+    assert_equal "Arizona Coyotes", player.opponent_team
+    assert_equal "Pittsburgh Penguins", NhlPlayerGameStat.where(player_name: "Clayton Keller").first.opponent_team
   end
 end
