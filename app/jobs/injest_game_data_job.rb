@@ -5,9 +5,12 @@ require Rails.root.join('lib', 'nhl_live_game_stat_processor')
 class InjestGameDataJob
   @queue = :high
 
-  def self.perform(live_game_link, game_id) # rubocop:disable Metrics/MethodLength
+  def self.perform(live_game_link, game_id, log_label = nil) # rubocop:disable Metrics/MethodLength
     puts "ran InjestGameDataJob with game_link: #{live_game_link}, game_id: #{game_id}"
-    JobDatum.create!(job_name: "InjestGameDataJob", label: "game_link: #{live_game_link}, game_id: #{game_id}")
+    JobDatum.create!(
+      job_name: "InjestGameDataJob",
+      label: "#{log_label} game_link: #{live_game_link}, game_id: #{game_id}"
+    )
 
     response = HTTParty.get(URI.join("https://statsapi.web.nhl.com", live_game_link))
 
