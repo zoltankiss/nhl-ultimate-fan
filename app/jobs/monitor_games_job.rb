@@ -9,9 +9,9 @@ class MonitorGamesJob
     puts "ran MonitorGamesJob"
     JobDatum.create!(job_name: "MonitorGamesJob", label: "")
 
-    todays_date_str = DateTime.now.strftime("%Y-%m-%d")
+    yesterdays_date_str = 1.day.ago.strftime("%Y-%m-%d")
     tommorrow_date_str = 1.day.from_now.strftime("%Y-%m-%d")
-    response = HTTParty.get("https://statsapi.web.nhl.com/api/v1/schedule?&startDate=#{todays_date_str}&endDate=#{tommorrow_date_str}")
+    response = HTTParty.get("https://statsapi.web.nhl.com/api/v1/schedule?&startDate=#{yesterdays_date_str}&endDate=#{tommorrow_date_str}")
 
     NhlGameProcessor.new(response).process
   rescue StandardError => e
