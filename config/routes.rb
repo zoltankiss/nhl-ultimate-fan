@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   resources :nhl_games, only: %i[index] do
     resources :nhl_player_game_stats, only: %i[index]
   end
+
+  resources :background_processes, only: %i[index]
 end
