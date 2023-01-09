@@ -6,7 +6,7 @@ https://nhlultimatefanviewer.herokuapp.com/
 
 ## How to run locally
 
-Clone both this repo and the frontend React app.
+Clone both this repo and the frontend React app: https://github.com/zoltankiss/nhl-ultimate-fan-frontend
 
 Step #1:
 * `bundle install`
