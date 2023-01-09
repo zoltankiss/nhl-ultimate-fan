@@ -5,7 +5,7 @@ require Rails.root.join('lib', 'nhl_live_game_stat_processor')
 class InjestGameDataJob
   @queue = :high
 
-  def self.perform(live_game_link, game_id)
+  def self.perform(live_game_link, game_id) # rubocop:disable Metrics/MethodLength
     puts "ran InjestGameDataJob with game_link: #{live_game_link}, game_id: #{game_id}"
     JobDatum.create!(job_name: "InjestGameDataJob", label: "game_link: #{live_game_link}, game_id: #{game_id}")
 

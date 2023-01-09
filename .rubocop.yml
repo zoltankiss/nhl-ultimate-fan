@@ -3,3 +3,8 @@ Style/StringLiterals:
 
 Style/Documentation:
   Enabled: false
+
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'db/**/*'

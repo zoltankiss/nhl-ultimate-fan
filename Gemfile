@@ -50,7 +50,7 @@ group :development do
 end
 
 gem "httparty"
+gem 'rack-cors'
 gem "resque"
 gem "resque-scheduler"
 gem "rubocop-rails"
-gem 'rack-cors'

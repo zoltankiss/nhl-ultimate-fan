@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NhlGameProcessor
   def initialize(json)
     @json = json
@@ -13,15 +15,25 @@ class NhlGameProcessor
         Resque.enqueue(InjestGameDataJob, game["link"], nhl_game.id)
       end
 
-      NhlGame.where(id: game["gamePk"]).first_or_create.update!(
-        link: game["link"],
-        status: game["status"]["abstractGameState"],
-        home_team_name: game["teams"]["home"]["team"]["name"],
-        home_team_id: game["teams"]["home"]["team"]["id"],
-        away_team_name: game["teams"]["away"]["team"]["name"],
-        away_team_id: game["teams"]["away"]["team"]["id"],
-        game_date: game["gameDate"]
-      )
+      process_game(game)
     end
+  end
+
+  private
+
+  def nhl_game(id)
+    NhlGame.where(id:).first_or_create
+  end
+
+  def process_game(game) # rubocop:disable Metrics/AbcSize
+    nhl_game(game["gamePk"]).update!(
+      link: game["link"],
+      status: game["status"]["abstractGameState"],
+      home_team_name: game["teams"]["home"]["team"]["name"],
+      home_team_id: game["teams"]["home"]["team"]["id"],
+      away_team_name: game["teams"]["away"]["team"]["name"],
+      away_team_id: game["teams"]["away"]["team"]["id"],
+      game_date: game["gameDate"]
+    )
   end
 end
