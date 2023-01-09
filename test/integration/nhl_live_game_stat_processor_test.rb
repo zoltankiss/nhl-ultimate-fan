@@ -30,6 +30,7 @@ class NhlLiveGameStatProcessorTest < ActionDispatch::IntegrationTest
     assert_equal "87", player.player_number
     assert_equal "Center", player.player_position
     assert_equal 2, player.assists
+    assert_equal 2, player.points
     assert_equal 0, player.goals
     assert_equal 0, player.hits
 

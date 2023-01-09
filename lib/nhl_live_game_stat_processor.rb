@@ -30,6 +30,12 @@ class NhlLiveGameStatProcessor
     end
   end
 
+  def points(goals, assists)
+    return unless goals.respond_to?(:+) && assists.respond_to?(:+)
+
+    goals + assists
+  end
+
   def process_player_live_data(player_id, player)
     stats = player["stats"]["skaterStats"] || {}
 
@@ -37,7 +43,7 @@ class NhlLiveGameStatProcessor
       assists: stats["assists"],
       goals: stats["goals"],
       hits: stats["hits"],
-      points: nil,
+      points: points(stats["goals"], stats["assists"]),
       penalty_minutes: stats["penalty_minutes"]
     )
   end
