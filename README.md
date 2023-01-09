@@ -1,24 +1,22 @@
-# README
+# NHL Ultimate Fan
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To view in production:
 
-Things you may want to cover:
+https://nhlultimatefanviewer.herokuapp.com/
 
-* Ruby version
+## How to run locally
 
-* System dependencies
+Clone both this repo and the frontend React app.
 
-* Configuration
+Step #1:
+* `bundle install`
+* `bin/rails db:create`
+* `bin/rails db:migrate`
 
-* Database creation
+Step #2: open four seperate tabs.
 
-* Database initialization
+In one, start the frontend. In another, run: `bin/rails s`.
+In yet another, run: `bundle exec rake resque:scheduler`.
+Finnally, in the last one, run: `QUEUE=* bundle exec rake resque:work`.
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+When an NHL game starts you should see live data!
