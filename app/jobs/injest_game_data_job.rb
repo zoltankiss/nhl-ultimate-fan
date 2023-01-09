@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require Rails.root.join('lib', 'nhl_live_game_stat_processor')
+
 class InjestGameDataJob
   @queue = :high
 
@@ -9,40 +11,7 @@ class InjestGameDataJob
 
     response = HTTParty.get(URI.join("https://statsapi.web.nhl.com", live_game_link))
 
-    response["liveData"]["boxscore"]["teams"]["away"]["players"].each do |player_id, player|
-      stats = player["stats"]["skaterStats"] || {}
-
-      NhlPlayerGameStat.where(player_id:, nhl_game_id: game_id).first_or_create.update!(
-        assists: stats["assists"],
-        goals: stats["goals"],
-        hits: stats["hits"],
-        points: nil,
-        penalty_minutes: stats["penalty_minutes"]
-      )
-    end
-
-    response["liveData"]["boxscore"]["teams"]["home"]["players"].each do |player_id, player|
-      stats = player["stats"]["skaterStats"] || {}
-
-      NhlPlayerGameStat.where(player_id:, nhl_game_id: game_id).first_or_create.update!(
-        assists: stats["assists"],
-        goals: stats["goals"],
-        hits: stats["hits"],
-        points: nil,
-        penalty_minutes: stats["penalty_minutes"]
-      )
-    end
-
-    response["gameData"]["players"].each do |player_id, player|
-      NhlPlayerGameStat.where(player_id:, nhl_game_id: game_id).first_or_create.update!(
-        player_name: player["fullName"],
-        team_id: player["currentTeam"]["id"],
-        team_name: player["currentTeam"]["name"],
-        player_age: player["currentAge"],
-        player_number: player["primaryNumber"],
-        player_position: player["primaryPosition"]["name"]
-      )
-    end
+    NhlLiveGameStatProcessor.new(response, game_id).process
 
     game_status = response["gameData"]["status"]["abstractGameState"]
 
