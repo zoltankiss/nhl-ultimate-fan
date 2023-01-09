@@ -4,8 +4,8 @@ class NhlGamesController < ApplicationController
   def index
     render(
       json: {
-        live_games: NhlGame.where(status: "Live"),
-        other_games: NhlGame.where.not(status: "Live").order(created_at: :desc)
+        live_games: NhlGame.live_games_with_game_stat_counts,
+        other_games: NhlGame.not_live_games_with_game_stat_counts
       }
     )
   end
