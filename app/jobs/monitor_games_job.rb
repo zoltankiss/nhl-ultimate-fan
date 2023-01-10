@@ -6,7 +6,7 @@ class MonitorGamesJob
   @queue = :high
 
   def self.perform
-    puts "ran MonitorGamesJob"
+    Rails.logger.info "ran MonitorGamesJob"
     JobDatum.create!(job_name: "MonitorGamesJob", label: "")
 
     yesterdays_date_str = 1.day.ago.strftime("%Y-%m-%d")
@@ -15,6 +15,6 @@ class MonitorGamesJob
 
     NhlGameProcessor.new(response).process
   rescue StandardError => e
-    puts e.inspect
+    Rails.logger.debug e.inspect
   end
 end

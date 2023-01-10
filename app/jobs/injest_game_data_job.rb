@@ -6,7 +6,7 @@ class InjestGameDataJob
   @queue = :high
 
   def self.perform(live_game_link, game_id, log_label = nil) # rubocop:disable Metrics/MethodLength
-    puts "ran InjestGameDataJob with game_link: #{live_game_link}, game_id: #{game_id}"
+    Rails.logger.info "ran InjestGameDataJob with game_link: #{live_game_link}, game_id: #{game_id}"
     JobDatum.create!(
       job_name: "InjestGameDataJob",
       label: "#{log_label} game_link: #{live_game_link}, game_id: #{game_id}"
@@ -23,6 +23,6 @@ class InjestGameDataJob
       Resque.enqueue(InjestGameDataJob, live_game_link, game_id)
     end
   rescue StandardError => e
-    puts e.inspect
+    Rails.logger.debug e.inspect
   end
 end
