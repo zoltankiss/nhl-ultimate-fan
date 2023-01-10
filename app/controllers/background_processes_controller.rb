@@ -3,7 +3,7 @@
 class BackgroundProcessesController < ApplicationController
   def index
     render(
-      json: JobDatum.order(created_at: :desc).limit(50)
+      json: JobDatum.order(created_at: :desc).limit(150)
     )
   end
 end
