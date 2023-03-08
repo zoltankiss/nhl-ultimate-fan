@@ -5,26 +5,45 @@ class NhlGame < ApplicationRecord
   has_many :fun_facts, as: :fun_factable
 
   attribute :nhl_player_game_stats_count
+  attribute :fun_facts_count
+
+  def game_title
+    "#{away_team_name} vs #{home_team_name}"
+  end
 
   def kick_off_game_data_injestion_job
     Resque.enqueue(InjestGameDataJob, link, id, "(`rails c` manually kick off)")
   end
 
+  def self.get_nhl_games_without_a_fun_fact
+    NhlGame
+    .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
+    .where("fun_facts.id IS NULL")
+  end
+
+  def self.get_nhl_games_without_a_fun_fact
+    NhlGame
+    .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
+    .where("fun_facts.id IS NOT NULL")
+  end
+
   def self.live_games_with_game_stat_counts
     NhlGame
       .joins("LEFT OUTER JOIN nhl_player_game_stats ON nhl_player_game_stats.nhl_game_id = nhl_games.id")
+      .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
       .where(status: "Live")
       .order(created_at: :desc)
-      .group("nhl_games.id")
-      .select("count(nhl_player_game_stats.player_id) as nhl_player_game_stats_count, nhl_games.*")
+      .group("nhl_games.id, fun_facts.id")
+      .select("count(fun_facts.id), count(nhl_player_game_stats.player_id) as nhl_player_game_stats_count, nhl_games.*, STRING_AGG(fun_facts.fun_fact, ',') as fun_facts")
   end
 
   def self.not_live_games_with_game_stat_counts
     NhlGame
       .joins("LEFT OUTER JOIN nhl_player_game_stats ON nhl_player_game_stats.nhl_game_id = nhl_games.id")
+      .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
       .where.not(status: "Live")
       .order(created_at: :desc)
-      .group("nhl_games.id")
-      .select("count(nhl_player_game_stats.player_id) as nhl_player_game_stats_count, nhl_games.*")
+      .group("nhl_games.id, fun_facts.id")
+      .select("count(nhl_player_game_stats.player_id) as nhl_player_game_stats_count, nhl_games.*, STRING_AGG(fun_facts.fun_fact, ',') as fun_facts")
   end
 end
