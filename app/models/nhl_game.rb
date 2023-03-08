@@ -40,6 +40,12 @@ class NhlGame < ApplicationRecord
     response["choices"].first["text"].strip
   end
 
+  def self.save_fun_facts(n)
+    NhlGame.get_nhl_games_without_a_fun_fact.limit(1).each do |game|
+      game.fun_facts.create!(fun_fact: game.gen_fun_fact)
+    end
+  end
+
   def self.get_nhl_games_without_a_fun_fact
     NhlGame
     .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
