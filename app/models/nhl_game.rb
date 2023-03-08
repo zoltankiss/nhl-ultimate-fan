@@ -41,7 +41,7 @@ class NhlGame < ApplicationRecord
   end
 
   def self.save_fun_facts(n)
-    NhlGame.get_nhl_games_without_a_fun_fact.limit(1).each do |game|
+    NhlGame.get_nhl_games_without_a_fun_fact.limit(n).each do |game|
       game.fun_facts.create!(fun_fact: game.gen_fun_fact)
     end
   end
