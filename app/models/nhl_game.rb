@@ -52,7 +52,7 @@ class NhlGame < ApplicationRecord
     .where("fun_facts.id IS NULL")
   end
 
-  def self.get_nhl_games_without_a_fun_fact
+  def self.get_nhl_games_with_a_fun_fact
     NhlGame
     .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
     .where("fun_facts.id IS NOT NULL")
