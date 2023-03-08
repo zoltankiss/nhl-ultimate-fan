@@ -15,6 +15,31 @@ class NhlGame < ApplicationRecord
     Resque.enqueue(InjestGameDataJob, link, id, "(`rails c` manually kick off)")
   end
 
+  def gen_fun_fact
+    endpoint = "https://api.openai.com/v1/completions"
+    api_key = ENV["OPENAI_API_KEY"]
+
+    parameters = {
+      "model": "text-davinci-003",
+      "prompt": "Generate a fun fact about the #{game_title}",
+      "temperature": 0.7,
+      "max_tokens": 256,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    }
+
+    response = HTTParty.post(endpoint,
+      headers: {
+        "Authorization" => "Bearer #{api_key}",
+        "Content-Type" => "application/json"
+      },
+      body: parameters.to_json
+    )
+
+    response["choices"].first["text"].strip
+  end
+
   def self.get_nhl_games_without_a_fun_fact
     NhlGame
     .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
