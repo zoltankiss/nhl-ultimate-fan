@@ -49,6 +49,7 @@ group :development do
   gem 'pry'
 end
 
+gem 'factory_bot'
 gem "httparty"
 gem 'rack-cors'
 gem "resque"

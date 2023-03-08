@@ -2,6 +2,7 @@
 
 class NhlGame < ApplicationRecord
   has_many :nhl_player_game_stat
+  has_many :fun_facts, as: :fun_factable
 
   attribute :nhl_player_game_stats_count
 
