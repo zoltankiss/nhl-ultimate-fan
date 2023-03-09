@@ -26,7 +26,7 @@ class NhlGameProcessor
   end
 
   def process_game(game) # rubocop:disable Metrics/AbcSize
-    nhl_game(game["gamePk"]).update!(
+    nhl_game(game["gamePk"]).tap { |game| save_fun_fact(game) }.update!(
       link: game["link"],
       status: game["status"]["abstractGameState"],
       home_team_name: game["teams"]["home"]["team"]["name"],
@@ -35,5 +35,9 @@ class NhlGameProcessor
       away_team_id: game["teams"]["away"]["team"]["id"],
       game_date: game["gameDate"]
     )
+  end
+
+  def save_fun_fact(game)
+    game.save_fun_fact if game.fun_facts.count.zero? && Rails.env != "test"
   end
 end

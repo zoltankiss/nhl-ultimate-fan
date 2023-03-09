@@ -30,32 +30,33 @@ class NhlGame < ApplicationRecord
     }
 
     response = HTTParty.post(endpoint,
-      headers: {
-        "Authorization" => "Bearer #{api_key}",
-        "Content-Type" => "application/json"
-      },
-      body: parameters.to_json
-    )
+                             headers: {
+                               "Authorization" => "Bearer #{api_key}",
+                               "Content-Type" => "application/json"
+                             },
+                             body: parameters.to_json)
 
     response["choices"].first["text"].strip
   end
 
+  def save_fun_fact
+    fun_facts.create!(fun_fact: gen_fun_fact)
+  end
+
   def self.save_fun_facts(n)
-    NhlGame.get_nhl_games_without_a_fun_fact.limit(n).each do |game|
-      game.fun_facts.create!(fun_fact: game.gen_fun_fact)
-    end
+    NhlGame.get_nhl_games_without_a_fun_fact.limit(n).each(&:save_fun_fact)
   end
 
   def self.get_nhl_games_without_a_fun_fact
     NhlGame
-    .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
-    .where("fun_facts.id IS NULL")
+      .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
+      .where("fun_facts.id IS NULL")
   end
 
   def self.get_nhl_games_with_a_fun_fact
     NhlGame
-    .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
-    .where("fun_facts.id IS NOT NULL")
+      .joins("LEFT OUTER JOIN fun_facts ON fun_facts.fun_factable_id = nhl_games.id")
+      .where("fun_facts.id IS NOT NULL")
   end
 
   def self.live_games_with_game_stat_counts
