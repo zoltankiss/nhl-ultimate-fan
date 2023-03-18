@@ -6,5 +6,5 @@ NhlGame.get_nhl_games_without_a_fun_fact.each do |game|
   puts game.fun_facts.map(&:fun_fact).join(" ")
   puts game.fun_facts.map(&:prompt).join(" ")
   games += 1
-  break if games > (ENV["TIMES"] || 3)
+  break if games > ((ENV["TIMES"] && ENV["TIMES"].to_i) || 3)
 end
