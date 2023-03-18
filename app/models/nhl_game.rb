@@ -15,13 +15,17 @@ class NhlGame < ApplicationRecord
     Resque.enqueue(InjestGameDataJob, link, id, "(`rails c` manually kick off)")
   end
 
+  def fun_fact_prompt
+    "Generate a fun fact about the #{game_title}"
+  end
+
   def gen_fun_fact
     endpoint = "https://api.openai.com/v1/completions"
     api_key = ENV["OPENAI_API_KEY"]
 
     parameters = {
       "model": "text-davinci-003",
-      "prompt": "Generate a fun fact about the #{game_title}",
+      "prompt": fun_fact_prompt,
       "temperature": 0.7,
       "max_tokens": 256,
       "top_p": 1,
@@ -40,7 +44,7 @@ class NhlGame < ApplicationRecord
   end
 
   def save_fun_fact
-    fun_facts.create!(fun_fact: gen_fun_fact)
+    fun_facts.create!(fun_fact: gen_fun_fact, prompt: fun_fact_prompt)
   end
 
   def self.save_fun_facts(n)
